@@ -2,6 +2,8 @@ from rest_framework.views import APIView
 from applications.models import JobApplication
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from django.db.models import Count
+from django.db.models.functions import TruncDate
 
 
 class SummaryAnalytics(APIView):
@@ -30,3 +32,18 @@ class SummaryAnalytics(APIView):
                 "offer_rate": round(offer_rate, 2),
             }
         )
+
+
+class ApplicationsOverTime(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        qs = JobApplication.objects.filter(user=user)
+        data = (
+            qs.values("applied_date")
+            .annotate(count=Count("id"))
+            .order_by("applied_date")
+        )
+
+        return Response(data)
