@@ -91,3 +91,9 @@ export const deleteApplication = (jobId) => {
         method: "DELETE",
     })
 }
+
+// Analytics
+
+export const getAnalyticsSummary = () => request("api/analytics/summary");
+
+export const getApplicationsOverTime = () => request("api/analytics/applications-over-time/")
