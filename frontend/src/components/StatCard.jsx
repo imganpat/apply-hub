@@ -12,7 +12,7 @@ export const StatCard = ({ label, value, trend, icon: Icon, color }) => {
         <Card className="@container/card h-fit">
             <CardHeader>
                 <CardDescription>{label}</CardDescription>
-                <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+                <CardTitle className="text-2xl font-semibold @[250px]/card:text-2xl">
                     {value}
                 </CardTitle>
                 <CardAction className={"h-full flex items-center"}>

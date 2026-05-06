@@ -19,9 +19,9 @@ export default function Page() {
   return (
     <div className="flex flex-1 flex-col">
       <div className="@container/main flex flex-1 flex-col gap-2">
-        <div className='flex items-center m-2'>
+        <div className='flex items-center mb-2'>
           <div className='flex gap-1 flex-col'>
-            <h3 className='text-3xl font-bold'>
+            <h3 className='text-2xl font-bold'>
               Dashboard
             </h3>
             <p>Track your job applications and progress</p>

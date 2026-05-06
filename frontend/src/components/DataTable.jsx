@@ -117,7 +117,7 @@ export default function DataTable({ onEdit }) {
                                                     {app.company[0]}
                                                 </div>
                                                 <div className="min-w-0">
-                                                    <p className="font-semibold text-lg text-gray-900 dark:text-white truncate">{app.company}</p>
+                                                    <p className="font-semibold text-base text-gray-900 dark:text-white truncate">{app.company}</p>
                                                     {true && (
                                                         <a href={app.application_link} target="_blank" rel="noreferrer" className="text-xs text-indigo-500 flex items-center gap-1 hover:underline">
                                                             Website <ExternalLink size={10} />
