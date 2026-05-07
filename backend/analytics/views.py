@@ -47,3 +47,14 @@ class ApplicationsOverTime(APIView):
         )
 
         return Response(data)
+
+
+class StatusDistribution(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        qs = JobApplication.objects.filter(user=user)
+        data = qs.values("status").annotate(count=Count("id")).order_by("status")
+
+        return Response(data)
