@@ -1,6 +1,5 @@
 "use client"
 
-import { Briefcase, CheckCircleIcon, FileLock, XCircle } from "lucide-react"
 import { StatCard } from "./StatCard";
 import { useMemo } from "react";
 
@@ -28,10 +27,33 @@ export function SectionCards({ applications }) {
   return (
     <div
       className="grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-card">
-      <StatCard label="Total Applications" value={stats.totalApplications} trend="+2 this week" icon={FileLock} color="indigo" />
-      <StatCard label="Interviews" value={stats.interviews} trend="2 upcoming" icon={Briefcase} color="purple" />
-      <StatCard label="Offers" value={stats.offers} trend="1 pending" icon={CheckCircleIcon} color="green" />
-      <StatCard label="Rejections" value={stats.rejections} trend="Keep going!" icon={XCircle} color="red" />
+      <StatCard
+        label="Total Applications"
+        value={stats.totalApplications}
+        trend="+2 this week"
+        status="applied"
+      />
+
+      <StatCard
+        label="Interviews"
+        value={stats.interviews}
+        trend="2 upcoming"
+        status="interview"
+      />
+
+      <StatCard
+        label="Offers"
+        value={stats.offers}
+        trend="1 pending"
+        status="offer"
+      />
+
+      <StatCard
+        label="Rejections"
+        value={stats.rejections}
+        trend="Keep going!"
+        status="rejected"
+      />
     </div>
   );
 }

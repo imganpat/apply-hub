@@ -18,6 +18,7 @@ import {
 } from "./ui/select";
 import { getApplication, updateApplication, } from '@/lib/api'
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { APPLICATION_STATUSES, STATUS_LABELS } from '@/constants/ application-status'
 
 export default function ApplicationModal({ open, application, onOpenChange }) {
 
@@ -197,21 +198,14 @@ export default function ApplicationModal({ open, application, onOpenChange }) {
                                     <SelectValue placeholder="Select status" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="applied">
-                                        Applied
-                                    </SelectItem>
-                                    <SelectItem value="screening">
-                                        Screening
-                                    </SelectItem>
-                                    <SelectItem value="interview">
-                                        Interview
-                                    </SelectItem>
-                                    <SelectItem value="offer">
-                                        Offer
-                                    </SelectItem>
-                                    <SelectItem value="rejected">
-                                        Rejected
-                                    </SelectItem>
+                                    {APPLICATION_STATUSES.map((status) => (
+                                        <SelectItem
+                                            key={status}
+                                            value={status}
+                                        >
+                                            {STATUS_LABELS[status]}
+                                        </SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                         </div>

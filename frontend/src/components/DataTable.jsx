@@ -17,9 +17,10 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Edit2, ExternalLink, ExternalLinkIcon, MapPin, Search, Trash2 } from 'lucide-react';
+import { Edit2, ExternalLink, MapPin, Search, Trash2 } from 'lucide-react';
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteApplication, getApplications } from '@/lib/api';
+import { APPLICATION_STATUSES, STATUS_LABELS } from '@/constants/ application-status';
 
 
 export default function DataTable({ onEdit }) {
@@ -85,11 +86,12 @@ export default function DataTable({ onEdit }) {
                         <SelectValue placeholder="Filter by status" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="all">All Statuses</SelectItem>
-                        <SelectItem value="applied">Applied</SelectItem>
-                        <SelectItem value="interview">Interview</SelectItem>
-                        <SelectItem value="offer">Offer</SelectItem>
-                        <SelectItem value="rejected">Rejected</SelectItem>
+                        <SelectItem value="all">All</SelectItem>
+                        {APPLICATION_STATUSES.map((status) => (
+                            <SelectItem key={status} value={status}>
+                                {STATUS_LABELS[status]}
+                            </SelectItem>
+                        ))}
                     </SelectContent>
                 </Select>
             </div>
