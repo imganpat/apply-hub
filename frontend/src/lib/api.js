@@ -96,4 +96,6 @@ export const deleteApplication = (jobId) => {
 
 export const getAnalyticsSummary = () => request("api/analytics/summary");
 
-export const getApplicationsOverTime = () => request("api/analytics/applications-over-time/")
+export const getApplicationsOverTime = () => request("api/analytics/applications-over-time/");
+
+export const getStatusDistribution = () => request("api/analytics/status-distribution/");

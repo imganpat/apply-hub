@@ -11,6 +11,8 @@ import {
     ResponsiveContainer,
     CartesianGrid,
 } from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
 export default function ApplicationsOverTimeChart() {
     const { data = [], isLoading, error } = useQuery({
@@ -18,7 +20,6 @@ export default function ApplicationsOverTimeChart() {
         queryFn: getApplicationsOverTime,
     });
 
-    console.log("chart data:", data);
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -28,25 +29,53 @@ export default function ApplicationsOverTimeChart() {
         return <div>Error loading chart</div>;
     }
 
+    const chartData = data.map((item) => ({
+        date: item.applied_date,
+        applications: item.count
+    }));
+
     return (
-        <div className="h-[350px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={data}>
-                    <CartesianGrid strokeDasharray="3 3" />
+        <Card>
+            <CardHeader>
+                <div className='flex justify-between items-center'>
+                    <CardTitle className={"font-semibold"}>
+                        Applications Over Time
+                    </CardTitle>
+                    <Select defaultValue="daily">
+                        <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectItem value="daily">Daily</SelectItem>
+                                <SelectItem value="weekly">Weekly</SelectItem>
+                                <SelectItem value="monthly">Monthly</SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </div>
+            </CardHeader>
+            <CardContent>
+                <div className="h-[350px] w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={chartData}>
+                            <CartesianGrid strokeDasharray="3 3" />
 
-                    <XAxis dataKey="applied_date" />
+                            <XAxis dataKey="date" />
 
-                    <YAxis allowDecimals={false} />
+                            <YAxis allowDecimals={false} />
 
-                    <Tooltip />
+                            <Tooltip />
 
-                    <Line
-                        type="monotone"
-                        dataKey="count"
-                        strokeWidth={2}
-                    />
-                </LineChart>
-            </ResponsiveContainer>
-        </div>
+                            <Line
+                                type="monotone"
+                                dataKey="applications"
+                                strokeWidth={2}
+                            />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </div>
+            </CardContent>
+        </Card>
     );
 }

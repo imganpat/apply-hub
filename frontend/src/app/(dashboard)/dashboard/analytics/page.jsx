@@ -1,41 +1,37 @@
 import React from 'react'
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
 import ApplicationsOverTimeChart from '@/components/ApplicationsOverTimeChart'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import StatusDistributionChart from '@/components/StatusDistributionChart'
+import ApplicationFunnelChart from '@/components/ApplicationFunnelChart'
 
 export default function Page() {
     return (
-        <Card>
-            <CardHeader>
-                <div className='flex justify-between items-center'>
-                    <CardTitle className={"font-semibold"}>
-                        Applications Over Time
-                    </CardTitle>
-                    <Select defaultValue="daily">
-                        <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectItem value="daily">Daily</SelectItem>
-                                <SelectItem value="weekly">Weekly</SelectItem>
-                                <SelectItem value="monthly">Monthly</SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
+        <div className='flex flex-col gap-4'>
+            <div className='flex justify-between items-center'>
+                <div className='flex gap-1 flex-col'>
+                    <h3 className='text-2xl font-bold'>
+                        Analytics
+                    </h3>
+                    <p className='text-muted-foreground'>Track you job application performance and insights</p>
                 </div>
-            </CardHeader>
-            <CardContent>
-                <ApplicationsOverTimeChart />
-            </CardContent>
-        </Card>
+            </div>
+
+            <div className='flex flex-col gap-4'>
+                <div className="flex-1">
+                    <ApplicationsOverTimeChart />
+                </div>
+
+                <div className="flex gap-4">
+                    <div className="flex-1">
+                        <StatusDistributionChart />
+                    </div>
+
+                    <div className="flex-1">
+                        <ApplicationFunnelChart />
+                    </div>
+                </div>
+
+            </div>
+        </div>
 
     )
 }
