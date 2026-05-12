@@ -4,6 +4,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 User = get_user_model()
 
+
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
@@ -13,12 +14,12 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create_user(
-            email=validated_data["email"],  
-            full_name = validated_data["full_name"],
-            password=validated_data["password"]
+            email=validated_data["email"],
+            full_name=validated_data["full_name"],
+            password=validated_data["password"],
         )
         return user
-    
+
     def to_representation(self, instance):
         refresh = RefreshToken.for_user(instance)
 
@@ -34,3 +35,22 @@ class RegisterSerializer(serializers.ModelSerializer):
             },
         }
 
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+
+        fields = (
+            "id",
+            "email",
+            "full_name",
+            "is_verified",
+            "created_at",
+        )
+
+        read_only_fields = (
+            "id",
+            "email",
+            "is_verified",
+            "created_at",
+        )

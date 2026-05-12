@@ -18,13 +18,14 @@ router.register(r"api/applications", ApplicationViewSet, basename="job_applicati
 urlpatterns = [
     path("", home, name="home"),
     # auth
-    path(
-        "api/register/",
-        RegisterView.as_view(),
-        name="register",
-    ),
-    path("api/login/", TokenObtainPairView.as_view(), name="login"),
-    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    # path(
+    #     "api/register/",
+    #     RegisterView.as_view(),
+    #     name="register",
+    # ),
+    # path("api/login/", TokenObtainPairView.as_view(), name="login"),
+    # path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api/accounts/", include("accounts.urls")),
     path("api/analytics/", include("analytics.urls")),
 ]
 
