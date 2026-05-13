@@ -45,7 +45,7 @@ const data = {
     },
     {
       title: "Profile",
-      url: "#",
+      url: "/dashboard/profile",
       icon: (
         <User />
       ),

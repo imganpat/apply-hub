@@ -48,21 +48,21 @@ const request = async (endpoint, options = {}, isRetry = false) => {
 // Auth
 
 export const registerUser = (userData) => {
-    return request("api/register/", {
+    return request("api/accounts/register/", {
         method: "POST",
         body: JSON.stringify(userData),
     });
 }
 
 export const loginUser = (credentials) => {
-    return request("api/login/", {
+    return request("api/accounts/login/", {
         method: "POST",
         body: JSON.stringify(credentials),
     });
 }
 
 export const refreshToken = (refreshToken) => {
-    return request("api/token/refresh/", {
+    return request("api/accounts/token/refresh/", {
         method: "POST",
         body: JSON.stringify({ refresh: refreshToken }),
     });
@@ -99,3 +99,7 @@ export const getAnalyticsSummary = () => request("api/analytics/summary");
 export const getApplicationsOverTime = () => request("api/analytics/applications-over-time/");
 
 export const getStatusDistribution = () => request("api/analytics/status-distribution/");
+
+// Profile
+
+export const getUserProfile = () => request("api/accounts/me/");
