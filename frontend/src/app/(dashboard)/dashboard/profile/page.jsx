@@ -7,7 +7,6 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
 import { getAnalyticsSummary, getUserProfile } from "@/lib/api";
@@ -54,7 +53,7 @@ export default function Page() {
     }
 
     return (
-        <div className="space-y-6 p-6">
+        <div className="space-y-6">
 
             {/* Header */}
             <Card>
