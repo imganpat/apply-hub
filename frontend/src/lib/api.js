@@ -1,4 +1,8 @@
-const BASE_URL = "http://localhost:8000/";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+if (!BASE_URL) {
+    throw new Error("NEXT_PUBLIC_API_URL is missing");
+}
 
 const getToken = () => localStorage.getItem("access_token");
 
@@ -9,7 +13,7 @@ const request = async (endpoint, options = {}, isRetry = false) => {
         ...options.headers,
     }
 
-    const res = await fetch(`${BASE_URL}${endpoint}`, {
+    const res = await fetch(`${BASE_URL}/${endpoint}`, {
         ...options,
         headers,
     });
