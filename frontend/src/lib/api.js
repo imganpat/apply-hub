@@ -9,6 +9,8 @@ const getToken = () => {
     return localStorage.getItem("access_token");
 };
 
+const isBrowser = typeof window !== "undefined";
+
 const request = async (endpoint, options = {}, isRetry = false) => {
     const headers = {
         "Content-Type": "application/json",
@@ -22,19 +24,27 @@ const request = async (endpoint, options = {}, isRetry = false) => {
     });
 
     if (res.status === 401 && !isRetry) {
-        const refresh = localStorage.getItem("refresh_token");
+        const refresh = isBrowser
+            ? localStorage.getItem("refresh_token")
+            : null;
         if (refresh) {
             try {
                 const data = await refreshToken(refresh);
-                localStorage.setItem("access_token", data.access);
+                if (isBrowser) {
+                    localStorage.setItem("access_token", data.access);
+                }
 
                 return request(endpoint, options);
             } catch (err) {
-                localStorage.clear();
-                window.location.href = "/login/";
+                if (isBrowser) {
+                    localStorage.clear();
+                    window.location.href = "/login/";
+                }
             }
         } else {
-            window.location.href = "/login/";
+            if (isBrowser) {
+                window.location.href = "/login/";
+            }
         }
     }
 
