@@ -18,6 +18,8 @@ export default function LoginPage() {
 
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const token = localStorage.getItem("access_token");
 
     if (token) {
