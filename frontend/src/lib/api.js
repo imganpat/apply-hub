@@ -4,7 +4,10 @@ if (!BASE_URL) {
     throw new Error("NEXT_PUBLIC_API_URL is missing");
 }
 
-const getToken = () => localStorage.getItem("access_token");
+const getToken = () => {
+    if (typeof window === "undefined") return null;
+    return localStorage.getItem("access_token");
+};
 
 const request = async (endpoint, options = {}, isRetry = false) => {
     const headers = {
