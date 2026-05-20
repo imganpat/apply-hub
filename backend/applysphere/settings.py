@@ -34,7 +34,7 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "apply-sphere-api.onrender.com",
+    "applyhub-fa3y.onrender.com/",
 ]
 
 CORS_ALLOWED_ORIGINS = [
