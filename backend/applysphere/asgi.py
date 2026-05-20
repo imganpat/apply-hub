@@ -1,5 +1,5 @@
 """
-ASGI config for applysphere project.
+ASGI config for applyhub (applysphere) project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

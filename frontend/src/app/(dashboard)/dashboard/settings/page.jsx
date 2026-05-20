@@ -38,7 +38,7 @@ export default function Page() {
                         Appearance
                     </CardTitle>
                     <p className="text-sm text-muted-foreground">
-                        Customize how ApplySphere looks on your device
+                        Customize how ApplyHub looks on your device
                     </p>
                 </CardHeader>
                 <CardContent>

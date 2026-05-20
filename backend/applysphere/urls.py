@@ -8,7 +8,7 @@ from analytics.views import SummaryAnalytics
 
 
 def home(request):
-    return JsonResponse({"message": "Welcome to ApplySphere API!"})
+    return JsonResponse({"message": "Welcome to ApplyHub (ApplySphere) API!"})
 
 
 router = DefaultRouter()

@@ -73,7 +73,7 @@ export function AppSidebar({
                 <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
                   <Briefcase className="w-5 h-5 text-primary-foreground" />
                 </div>
-                <span className="text-base text-lg font-semibold">ApplySphere</span>
+                <span className="text-base text-lg font-semibold">ApplyHub</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

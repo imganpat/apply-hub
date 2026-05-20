@@ -1,5 +1,5 @@
 """
-WSGI config for applysphere project.
+WSGI config for applyhub (applysphere) project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

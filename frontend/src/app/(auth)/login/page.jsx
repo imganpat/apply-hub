@@ -58,7 +58,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-md py-10 px-4 shadow-md">
         <CardHeader>
           <CardTitle className="text-2xl">Welcome back</CardTitle>
-          <CardDescription>Login to your ApplySphere account</CardDescription>
+          <CardDescription>Login to your ApplyHub account</CardDescription>
         </CardHeader>
 
         <form onSubmit={handleSubmit}>
