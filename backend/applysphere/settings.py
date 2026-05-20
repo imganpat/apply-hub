@@ -31,16 +31,27 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
+# ALLOWED_HOSTS = [
+#     "localhost",
+#     "127.0.0.1",
+#     "applyhub-fa3y.onrender.com",
+# ]
+
 ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    "applyhub-fa3y.onrender.com/",
+    "*"
 ]
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "https://applyhub.vercel.app",
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://applyhub.vercel.app",
+    "https://applyhub-fa3y.onrender.com",
+]
+
+CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
 
