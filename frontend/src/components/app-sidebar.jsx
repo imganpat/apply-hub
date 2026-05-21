@@ -68,12 +68,20 @@ export function AppSidebar({
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild>
+            <SidebarMenuButton
+              asChild
+              className="group-data-[collapsible=icon]:size-12!"
+            >
               <Link href="/dashboard">
-                <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                  <Briefcase className="w-5 h-5 text-primary-foreground" />
+                <div className="flex aspect-square size-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                  <Briefcase className="size-4" />
                 </div>
-                <span className="text-base text-lg font-semibold">ApplyHub</span>
+
+                <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
+                  <span className="truncate font-semibold">
+                    ApplyHub
+                  </span>
+                </div>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

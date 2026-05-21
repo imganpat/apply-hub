@@ -2,17 +2,13 @@ import React from 'react'
 import ApplicationsOverTimeChart from '@/components/ApplicationsOverTimeChart'
 import StatusDistributionChart from '@/components/StatusDistributionChart'
 import ApplicationFunnelChart from '@/components/ApplicationFunnelChart'
+import PageHeader from '@/components/PageHeader'
 
 export default function Page() {
     return (
         <div className='flex flex-col gap-4'>
             <div className='flex justify-between items-center'>
-                <div className='flex gap-1 flex-col'>
-                    <h3 className='text-2xl font-bold'>
-                        Analytics
-                    </h3>
-                    <p className='text-muted-foreground'>Track you job application performance and insights</p>
-                </div>
+                <PageHeader title="Analytics" subtitle="Track you job application performance and insights" />
             </div>
 
             <div className='flex flex-col gap-4'>

@@ -10,6 +10,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
 import { getAnalyticsSummary, getUserProfile } from "@/lib/api";
+import PageHeader from "@/components/PageHeader";
 
 export default function Page() {
     const [user, setUser] = useState(null);
@@ -56,6 +57,10 @@ export default function Page() {
         <div className="space-y-6">
 
             {/* Header */}
+            <div className='flex justify-between items-center'>
+                <PageHeader title="Profile" subtitle="View and manage your profile" />
+            </div>
+
             <Card>
                 <CardContent className="flex items-center gap-4 p-4">
 

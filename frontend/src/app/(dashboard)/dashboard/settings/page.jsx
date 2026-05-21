@@ -16,20 +16,14 @@ import {
     Monitor,
     Trash2,
 } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 
 
 export default function Page() {
     return (
         <div className="space-y-6">
             <div className='flex justify-between items-center'>
-                <div className='flex gap-1 flex-col'>
-                    <h3 className='text-2xl font-semibold'>
-                        Settings
-                    </h3>
-                    <p>
-                        Manage your account preferences and security.
-                    </p>
-                </div>
+                <PageHeader title="Settings" subtitle="Manage your account preferences and security." />
             </div>
 
             <Card>
