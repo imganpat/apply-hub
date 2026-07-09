@@ -11,30 +11,33 @@ import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
 import { getAnalyticsSummary, getUserProfile } from "@/lib/api";
 import PageHeader from "@/components/PageHeader";
+import { useUserProfile } from "@/hooks/useUserProfile";
+
 
 export default function Page() {
-    const [user, setUser] = useState(null);
+    // const [user, setUser] = useState(null);
     const [stats, setStats] = useState({});
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const response = await getUserProfile();
-                setUser(response);
+    const { data: user, isLoading } = useUserProfile();
 
-            } catch (error) {
-                console.error("Failed to fetch profile:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchProfile();
+    useEffect(() => {
+        // const fetchProfile = async () => {
+        //     try {
+        //         const response = await getUserProfile();
+        //         setUser(response);
+
+        //     } catch (error) {
+        //         console.error("Failed to fetch profile:", error);
+        //     } finally {
+        //         setLoading(false);
+        //     }
+        // };
+        // fetchProfile();
 
         const fetchStats = async () => {
             try {
                 const response = await getAnalyticsSummary();
-                console.log(response)
                 setStats(response);
             } catch (error) {
                 console.error("Failed to fetch stats:", error);

@@ -14,13 +14,15 @@ import {
 } from "@/components/ui/sidebar"
 import { LayoutDashboardIcon, Settings2Icon, User, Briefcase, FileText, BarChart3 } from "lucide-react"
 import Link from "next/link"
+import { useUserProfile } from "@/hooks/useUserProfile"
+
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
+  // user: {
+  //   name: "shadcn",
+  //   email: "m@example.com",
+  //   avatar: "/avatars/shadcn.jpg",
+  // },
   navMain: [
     {
       title: "Dashboard",
@@ -63,6 +65,8 @@ const data = {
 export function AppSidebar({
   ...props
 }) {
+  const { data: user } = useUserProfile();
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -91,7 +95,7 @@ export function AppSidebar({
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
     </Sidebar >
   );
