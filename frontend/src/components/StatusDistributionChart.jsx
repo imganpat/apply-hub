@@ -45,37 +45,31 @@ export default function StatusDistributionChart() {
             status: "applied",
             value: data.applied || 0,
             fill: STATUS_UI.applied.chartColor,
-            color: STATUS_UI.applied.chartTextColor,
         },
         {
             status: "screening",
             value: data.screening || 0,
             fill: STATUS_UI.screening.chartColor,
-            color: STATUS_UI.screening.chartTextColor,
         },
         {
             status: "interview",
             value: data.interviews || 0,
             fill: STATUS_UI.interview.chartColor,
-            color: STATUS_UI.interview.chartTextColor,
         },
         {
             status: "offer",
             value: data.offers || 0,
             fill: STATUS_UI.offer.chartColor,
-            color: STATUS_UI.offer.chartTextColor,
         },
         {
             status: "accepted",
             value: data.accepted || 0,
             fill: STATUS_UI.accepted.chartColor,
-            color: STATUS_UI.accepted.chartTextColor,
         },
         {
             status: "rejected",
             value: data.rejections || 0,
             fill: STATUS_UI.rejected.chartColor,
-            color: STATUS_UI.rejected.chartTextColor,
         },
     ].filter((item) => item.value > 0);
 
@@ -87,21 +81,15 @@ export default function StatusDistributionChart() {
                 </CardTitle>
 
                 <p className="text-sm text-muted-foreground">
-                    Track how your applications are
-                    distributed across each hiring stage
+                    Track how your applications are distributed across each
+                    hiring stage
                 </p>
             </CardHeader>
 
             <CardContent>
                 <div className="h-[350px] w-full">
-
-                    <ResponsiveContainer
-                        width="100%"
-                        height="100%"
-                    >
-
+                    <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
-
                             <Pie
                                 data={chartData}
                                 dataKey="value"
@@ -111,7 +99,6 @@ export default function StatusDistributionChart() {
                                 outerRadius={110}
                                 innerRadius={60}
                             >
-
                                 {chartData.map((item) => (
                                     <Cell
                                         key={item.status}
@@ -130,41 +117,40 @@ export default function StatusDistributionChart() {
                                         >
                                             <tspan
                                                 x="50%"
-                                                dy="-1em"
-                                                className="text-2xl font-bold"
+                                                dy="-0.9em"
+                                                fontSize="28"
+                                                fontWeight="700"
+                                                fill="var(--foreground)"
                                             >
                                                 {data.total_applications}
                                             </tspan>
 
                                             <tspan
                                                 x="50%"
-                                                dy="1.5em"
-                                                className="text-sm"
+                                                dy="1.6em"
+                                                fontSize="14"
+                                                fill="var(--muted-foreground)"
                                             >
                                                 Applications
                                             </tspan>
                                         </text>
                                     )}
                                 />
-
                             </Pie>
-
-                            {/* <Tooltip
-                                contentStyle={{
-                                    borderRadius: "12px",
-                                }}
-                                formatter={(value, _, item) => [
-                                    value,
-                                    STATUS_UI[item.payload.status].label,
-                                ]}
-                                itemStyle={{
-                                    color: undefined,
-                                }}
-                            /> */}
 
                             <Tooltip
                                 contentStyle={{
+                                    background: "var(--card)",
+                                    border: "1px solid var(--border)",
                                     borderRadius: "12px",
+                                    color: "var(--foreground)",
+                                }}
+                                labelStyle={{
+                                    color: "var(--muted-foreground)",
+                                    fontWeight: 600,
+                                }}
+                                itemStyle={{
+                                    color: "var(--foreground)",
                                 }}
                                 formatter={(value, _, item) => {
                                     const percentage = (
@@ -180,37 +166,46 @@ export default function StatusDistributionChart() {
                                 labelFormatter={() =>
                                     `Total: ${data.total_applications}`
                                 }
-                                itemStyle={{
-                                    color: undefined,
-                                }}
                             />
 
                             <Legend
                                 verticalAlign="bottom"
                                 align="center"
                                 iconType="circle"
-                                formatter={(status) => {
-                                    const item = chartData.find(
-                                        (entry) => entry.status === status
-                                    );
-
-                                    const percentage = (
-                                        (item.value / data.total_applications) *
-                                        100
-                                    ).toFixed(0);
-
-                                    return `${STATUS_UI[status].label} • ${item.value} (${percentage}%)`;
-                                }}
                                 wrapperStyle={{
                                     paddingTop: "20px",
                                     fontSize: "14px",
                                 }}
+                                formatter={(status) => {
+                                    const item = chartData.find(
+                                        (entry) =>
+                                            entry.status === status
+                                    );
+
+                                    const percentage = (
+                                        (item.value /
+                                            data.total_applications) *
+                                        100
+                                    ).toFixed(0);
+
+                                    return (
+                                        <span
+                                            style={{
+                                                color:
+                                                    "var(--foreground)",
+                                            }}
+                                        >
+                                            {
+                                                STATUS_UI[status].label
+                                            }{" "}
+                                            • {item.value} (
+                                            {percentage}%)
+                                        </span>
+                                    );
+                                }}
                             />
-
                         </PieChart>
-
                     </ResponsiveContainer>
-
                 </div>
             </CardContent>
         </Card>

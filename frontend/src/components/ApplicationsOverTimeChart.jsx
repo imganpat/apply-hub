@@ -65,7 +65,21 @@ export default function ApplicationsOverTimeChart() {
 
                             <YAxis allowDecimals={false} />
 
-                            <Tooltip />
+                            <Tooltip
+                                contentStyle={{
+                                    background: "var(--card)",
+                                    border: "1px solid var(--border)",
+                                    borderRadius: "12px",
+                                    color: "var(--foreground)",
+                                }}
+                                labelStyle={{
+                                    color: "var(--muted-foreground)",
+                                    fontWeight: 600,
+                                }}
+                                itemStyle={{
+                                    color: "var(--foreground)",
+                                }}
+                            />
 
                             <Line
                                 type="monotone"

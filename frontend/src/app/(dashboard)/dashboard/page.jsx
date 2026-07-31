@@ -18,7 +18,7 @@ export default function Page() {
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <div className="flex flex-1   flex-col">
+    <div className="flex flex-1 flex-col">
       <div className="@container/main flex flex-1 flex-col gap-2">
 
         <div className='flex justify-between items-center'>
@@ -43,7 +43,7 @@ export default function Page() {
 
                 <AnalyticsCard applications={applications} />
 
-                <Card className={"@container/card border-r-1"}>
+                <Card className={"@container/card border-r"}>
                   <CardHeader>
                     <CardTitle>Tips to Improve Your Success Rate</CardTitle>
                   </CardHeader>

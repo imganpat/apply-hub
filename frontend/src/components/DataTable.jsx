@@ -1,11 +1,21 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table'
-import { Card } from './ui/card'
-import { Button } from './ui/button';
-import { StatusBadge } from './ui/badge';
-import { Input } from './ui/input';
+import React, { useState } from "react";
+
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "./ui/table";
+
+import { Card } from "./ui/card";
+import { Button } from "./ui/button";
+import { StatusBadge } from "./ui/badge";
+import { Input } from "./ui/input";
+
 import {
     AlertDialog,
     AlertDialogAction,
@@ -15,13 +25,39 @@ import {
     AlertDialogTitle,
     AlertDialogFooter,
     AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Edit2, ExternalLink, MapPin, Search, Trash2 } from 'lucide-react';
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteApplication, getApplications } from '@/lib/api';
-import { APPLICATION_STATUSES, STATUS_LABELS } from '@/constants/ application-status';
+} from "@/components/ui/alert-dialog";
 
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "./ui/select";
+
+import {
+    Edit2,
+    ExternalLink,
+    MapPin,
+    Search,
+    Trash2,
+} from "lucide-react";
+
+import {
+    useMutation,
+    useQuery,
+    useQueryClient,
+} from "@tanstack/react-query";
+
+import {
+    deleteApplication,
+    getApplications,
+} from "@/lib/api";
+
+import {
+    APPLICATION_STATUSES,
+    STATUS_LABELS,
+} from "@/constants/ application-status";
 
 export default function DataTable({ onEdit }) {
     const [searchQuery, setSearchQuery] = useState("");
@@ -32,63 +68,88 @@ export default function DataTable({ onEdit }) {
         queryFn: getApplications,
     });
 
-    const QueryClient = useQueryClient();
+    const queryClient = useQueryClient();
 
     const deleteMutation = useMutation({
         mutationFn: deleteApplication,
+
         onSuccess: (_, deletedId) => {
-            QueryClient.setQueryData(["applications"], (oldData) =>
+            queryClient.setQueryData(["applications"], (oldData) =>
                 oldData.filter((app) => app.id !== deletedId)
             );
 
-            QueryClient.invalidateQueries({
+            queryClient.invalidateQueries({
                 queryKey: ["applications"],
             });
-        }
-    })
-
+        },
+    });
 
     const handleDelete = async (id) => {
         await deleteMutation.mutateAsync(id);
+    };
+
+    if (isLoading) {
+        return <div>Loading...</div>;
     }
 
-
-    if (isLoading) return <div>Loading...</div>;
-
-
-    const filterApplications = applications.filter(app => {
+    const filteredApplications = applications.filter((app) => {
         const matchesSearch =
-            app.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            app.role.toLowerCase().includes(searchQuery.toLowerCase())
+            app.company
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase()) ||
+            app.role
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase());
 
         const matchesStatus =
-            statusFilter === "" || app.status === statusFilter;
+            statusFilter === "" ||
+            app.status === statusFilter;
 
         return matchesSearch && matchesStatus;
     });
 
     return (
         <>
-            <div className="flex flex-col sm:flex-row gap-4 my-5">
+            <div className="mb-6 flex flex-col gap-4 mt-2 md:flex-row">
                 <div className="relative flex-1">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <Search
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                        size={18}
+                    />
+
                     <Input
-                        id="search"
                         value={searchQuery}
                         placeholder="Search by company or role..."
-                        className="pl-10"
-                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="h-11 rounded-xl border-border bg-card pl-10 shadow-sm"
                         autoComplete="off"
+                        onChange={(e) =>
+                            setSearchQuery(e.target.value)
+                        }
                     />
+
                 </div>
-                <Select onValueChange={(value) => setStatusFilter(value === "all" ? "" : value)}>
-                    <SelectTrigger className="w-full sm:w-[180px]">
+
+                <Select
+                    onValueChange={(value) =>
+                        setStatusFilter(
+                            value === "all" ? "" : value
+                        )
+                    }
+                >
+                    <SelectTrigger className="h-11 w-full rounded-xl md:w-[210px]">
                         <SelectValue placeholder="Filter by status" />
                     </SelectTrigger>
+
                     <SelectContent>
-                        <SelectItem value="all">All</SelectItem>
+                        <SelectItem value="all">
+                            All Statuses
+                        </SelectItem>
+
                         {APPLICATION_STATUSES.map((status) => (
-                            <SelectItem key={status} value={status}>
+                            <SelectItem
+                                key={status}
+                                value={status}
+                            >
                                 {STATUS_LABELS[status]}
                             </SelectItem>
                         ))}
@@ -96,79 +157,155 @@ export default function DataTable({ onEdit }) {
                 </Select>
             </div>
 
-            <Card className="w-full p-0">
+            <Card className="overflow-hidden rounded-2xl border shadow-sm">
                 <div className="overflow-x-auto">
                     <Table>
                         <TableHeader>
-                            <TableRow className="bg-gray-50 dark:bg-gray-900/50 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase TableRowacking-wider">
-                                <TableHead className="px-6 py-4 min-w-[180px]">Company</TableHead>
-                                <TableHead className="px-6 py-4 min-w-[180px]">Role & Location</TableHead>
-                                <TableHead className="px-6 py-4">Salary</TableHead>
-                                <TableHead className="px-6 py-4">Status</TableHead>
-                                <TableHead className="px-6 py-4">Date Applied</TableHead>
-                                <TableHead className="px-6 py-4 text-right">Actions</TableHead>
+                            <TableRow className="bg-muted/40 hover:bg-muted/40">
+                                <TableHead className="px-6 pb-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                    Company
+                                </TableHead>
+
+                                <TableHead className="px-6 pb-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                    Role & Location
+                                </TableHead>
+
+                                <TableHead className="px-6 pb-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                    Salary
+                                </TableHead>
+
+                                <TableHead className="px-6 pb-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                    Status
+                                </TableHead>
+
+                                <TableHead className="px-6 pb-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                    Applied
+                                </TableHead>
+
+                                <TableHead className="px-6 pb-4 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                    Actions
+                                </TableHead>
                             </TableRow>
                         </TableHeader>
-                        <TableBody className="divide-y divide-gray-100 dark:divide-gray-700">
-                            {filterApplications.length > 0 ? (
-                                filterApplications.map(app => (
-                                    <TableRow key={app.id} className={"group"}>
+
+                        <TableBody>
+
+                            {filteredApplications.length > 0 &&
+                                filteredApplications.map((app) => (
+                                    <TableRow
+                                        key={app.id}
+                                        className="group border-border/40 transition-colors hover:bg-accent/40"
+                                    >
                                         <TableCell className="px-6 py-4">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center font-bold text-indigo-600 shrink-0">
+                                            <div className="flex items-center gap-4">
+                                                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 font-semibold text-primary">
                                                     {app.company[0]}
                                                 </div>
                                                 <div className="min-w-0">
-                                                    <p className="font-semibold text-base text-gray-900 dark:text-white truncate">{app.company}</p>
-                                                    {true && (
-                                                        <a href={app.application_link} target="_blank" rel="noreferrer" className="text-xs text-indigo-500 flex items-center gap-1 hover:underline">
-                                                            Website <ExternalLink size={10} />
+                                                    <p className="truncate text-base font-semibold text-foreground">
+                                                        {app.company}
+                                                    </p>
+
+                                                    {app.application_link && (
+                                                        <a
+                                                            href={app.application_link}
+                                                            target="_blank"
+                                                            rel="noreferrer"
+                                                            className="mt-1 flex items-center gap-1 text-sm text-primary hover:underline"
+                                                        >
+                                                            Website
+
+                                                            <ExternalLink
+                                                                size={12}
+                                                            />
                                                         </a>
                                                     )}
                                                 </div>
                                             </div>
                                         </TableCell>
+
                                         <TableCell className="px-6 py-4">
-                                            <p className="text-sm font-medium text-gray-900 dark:text-white">{app.role}</p>
-                                            <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
-                                                <MapPin size={12} />
-                                                <span className="truncate">{app.location || 'Not specified'}</span>
+                                            <p className="font-medium text-foreground">
+                                                {app.role}
+                                            </p>
+                                            <div className="mt-2 flex items-center gap-1 text-sm text-muted-foreground">
+                                                <MapPin size={14} />
+                                                <span>
+                                                    {app.location ||
+                                                        "Not specified"}
+                                                </span>
                                             </div>
                                         </TableCell>
+
                                         <TableCell className="px-6 py-4">
-                                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                                                {app.salary || '—'}
+                                            <span className="font-medium text-foreground">
+                                                {app.salary || "—"}
                                             </span>
                                         </TableCell>
-                                        <TableCell className="px-6 py-4"><StatusBadge status={app.status} /></TableCell>
-                                        <TableCell className="px-6 py-4 text-sm text-gray-500">{new Date(app.created_at).toLocaleDateString()}</TableCell>
-                                        <TableCell className="px-6 py-4 text-right">
-                                            <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button
-                                                    className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-all"
-                                                    onClick={() => onEdit(app)}
+                                        <TableCell className="px-6 py-4">
+                                            <StatusBadge status={app.status} />
+                                        </TableCell>
 
+                                        <TableCell className="px-6 py-5 text-sm text-muted-foreground">
+                                            {
+                                                new Date(
+                                                    app.created_at
+                                                ).toLocaleDateString("en-IN", {
+                                                    day: "numeric",
+                                                    month: "short",
+                                                    year: "numeric",
+                                                })
+                                            }
+                                        </TableCell>
+
+                                        <TableCell className="px-6 py-4">
+                                            <div className="flex items-center justify-end gap-2">
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="h-9 w-9 rounded-lg text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                                                    onClick={() => onEdit(app)}
                                                 >
                                                     <Edit2 size={16} />
-                                                </button>
+                                                </Button>
 
                                                 <AlertDialog>
                                                     <AlertDialogTrigger asChild>
-                                                        <button className="p-2 text-gray-400 hover:text-red-500">
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-9 w-9 rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+                                                        >
                                                             <Trash2 size={16} />
-                                                        </button>
+                                                        </Button>
+
                                                     </AlertDialogTrigger>
 
-                                                    <AlertDialogContent size='sm'>
+                                                    <AlertDialogContent>
                                                         <AlertDialogHeader>
                                                             <AlertDialogTitle>
-                                                                Are you sure you want to delete this application?
+                                                                Delete Application?
                                                             </AlertDialogTitle>
+                                                            <p className="text-sm text-muted-foreground">
+                                                                This action cannot
+                                                                be undone. This will
+                                                                permanently delete
+                                                                this application.
+                                                            </p>
                                                         </AlertDialogHeader>
 
                                                         <AlertDialogFooter>
-                                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                            <AlertDialogAction onClick={() => handleDelete(app.id)}>
+                                                            <AlertDialogCancel>
+                                                                Cancel
+                                                            </AlertDialogCancel>
+                                                            <AlertDialogAction
+                                                                onClick={() =>
+                                                                    handleDelete(
+                                                                        app.id
+                                                                    )
+                                                                }
+                                                                className="bg-destructive hover:bg-destructive/90"
+                                                            >
                                                                 Delete
                                                             </AlertDialogAction>
                                                         </AlertDialogFooter>
@@ -177,16 +314,45 @@ export default function DataTable({ onEdit }) {
                                             </div>
                                         </TableCell>
                                     </TableRow>
-                                ))
-                            ) : (
+                                ))}
+
+                            {filteredApplications.length === 0 && (
                                 <TableRow>
-                                    <TableCell colSpan="6" className="px-6 py-20 text-center">
-                                        <div className="flex flex-col items-center gap-4">
-                                            <div className="w-16 h-16 bg-gray-50 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-300">
-                                                <Search size={32} />
+                                    <TableCell
+                                        colSpan={6}
+                                        className="py-20"
+                                    >
+                                        <div className="flex flex-col items-center justify-center">
+                                            <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-muted">
+                                                <Search
+                                                    size={28}
+                                                    className="text-muted-foreground"
+                                                />
                                             </div>
-                                            <p className="text-gray-500 font-medium">No applications found matching your search.</p>
-                                            <Button variant="secondary" onClick={() => setSearchQuery('')}>Clear Search</Button>
+
+                                            <h3 className="text-lg font-semibold">
+                                                No applications found
+                                            </h3>
+
+                                            <p className="mt-2 max-w-sm text-center text-sm text-muted-foreground">
+
+                                                We couldn't find any applications
+                                                matching your current search or
+                                                filter.
+                                            </p>
+
+                                            {(searchQuery || statusFilter) && (
+                                                <Button
+                                                    variant="outline"
+                                                    className="mt-6"
+                                                    onClick={() => {
+                                                        setSearchQuery("");
+                                                        setStatusFilter("");
+                                                    }}
+                                                >
+                                                    Clear Filters
+                                                </Button>
+                                            )}
                                         </div>
                                     </TableCell>
                                 </TableRow>
@@ -196,5 +362,5 @@ export default function DataTable({ onEdit }) {
                 </div>
             </Card>
         </>
-    )
+    );
 }

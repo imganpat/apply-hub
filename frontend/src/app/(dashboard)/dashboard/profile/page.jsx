@@ -15,25 +15,12 @@ import { useUserProfile } from "@/hooks/useUserProfile";
 
 
 export default function Page() {
-    // const [user, setUser] = useState(null);
     const [stats, setStats] = useState({});
     const [loading, setLoading] = useState(true);
 
     const { data: user, isLoading } = useUserProfile();
 
     useEffect(() => {
-        // const fetchProfile = async () => {
-        //     try {
-        //         const response = await getUserProfile();
-        //         setUser(response);
-
-        //     } catch (error) {
-        //         console.error("Failed to fetch profile:", error);
-        //     } finally {
-        //         setLoading(false);
-        //     }
-        // };
-        // fetchProfile();
 
         const fetchStats = async () => {
             try {
@@ -57,133 +44,134 @@ export default function Page() {
     }
 
     return (
-        <div className="space-y-6">
-
+        <>
             {/* Header */}
             <div className='flex justify-between items-center'>
                 <PageHeader title="Profile" subtitle="View and manage your profile" />
             </div>
 
-            <Card>
-                <CardContent className="flex items-center gap-4 p-4">
+            <div className="space-y-6 mt-2">
+                <Card>
+                    <CardContent className="flex items-center gap-4 p-4">
 
-                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted text-2xl font-bold">
-                        {user.full_name?.[0]}
-                    </div>
+                        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted text-2xl font-bold">
+                            {user.full_name?.[0]}
+                        </div>
 
-                    <div className="space-y-1">
-                        <h1 className="text-2xl font-semibold">
-                            {user.full_name}
-                        </h1>
+                        <div className="space-y-1">
+                            <h1 className="text-2xl font-semibold">
+                                {user.full_name}
+                            </h1>
 
-                        <p className="text-muted-foreground">
-                            {user.email}
-                        </p>
+                            <p className="text-muted-foreground">
+                                {user.email}
+                            </p>
 
-                        <Badge
-                            variant={
-                                user.is_verified
-                                    ? "default"
-                                    : "secondary"
-                            }
-                        >
-                            {user.is_verified
-                                ? "Verified"
-                                : "Not Verified"}
-                        </Badge>
-                    </div>
+                            <Badge
+                                variant={
+                                    user.is_verified
+                                        ? "default"
+                                        : "secondary"
+                                }
+                            >
+                                {user.is_verified
+                                    ? "Verified"
+                                    : "Not Verified"}
+                            </Badge>
+                        </div>
 
-                </CardContent>
-            </Card>
+                    </CardContent>
+                </Card>
 
 
-            {/* Account Info */}
-            <Card>
+                {/* Account Info */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle>
+                            Account Information
+                        </CardTitle>
+                    </CardHeader>
+
+                    <CardContent className="space-y-4">
+
+                        <InfoRow
+                            label="Full Name"
+                            value={user.full_name}
+                        />
+
+                        <InfoRow
+                            label="Email"
+                            value={user.email}
+                        />
+
+                        <InfoRow
+                            label="Member Since"
+                            value={new Date(user.created_at).toLocaleDateString(
+                                "en-US",
+                                {
+                                    day: "numeric",
+                                    year: "numeric",
+                                    month: "long",
+                                }
+                            )}
+                        />
+
+                    </CardContent>
+                </Card>
+
+
+                {/* Stats */}
+                <div className="grid gap-4 md:grid-cols-4">
+
+                    <StatCard
+                        title="Applications"
+                        value={stats.total_applications}
+                    />
+
+                    <StatCard
+                        title="Interviews"
+                        value={stats.interviews}
+                    />
+
+                    <StatCard
+                        title="Offers"
+                        value={stats.offers}
+                    />
+
+                    <StatCard
+                        title="Interview Rate"
+                        value={`${Number(stats.interview_rate).toFixed(1) || "0.0"}%`}
+                    />
+                </div>
+
+
+                {/* Actions */}
+                {/* <Card>
                 <CardHeader>
-                    <CardTitle>
-                        Account Information
-                    </CardTitle>
+                <CardTitle>
+                Actions
+                </CardTitle>
                 </CardHeader>
-
-                <CardContent className="space-y-4">
-
-                    <InfoRow
-                        label="Full Name"
-                        value={user.full_name}
-                    />
-
-                    <InfoRow
-                        label="Email"
-                        value={user.email}
-                    />
-
-                    <InfoRow
-                        label="Member Since"
-                        value={new Date(user.created_at).toLocaleDateString(
-                            "en-US",
-                            {
-                                day: "numeric",
-                                year: "numeric",
-                                month: "long",
-                            }
-                        )}
-                    />
-
-                </CardContent>
-            </Card>
-
-
-            {/* Stats */}
-            <div className="grid gap-4 md:grid-cols-4">
-
-                <StatCard
-                    title="Applications"
-                    value={stats.total_applications}
-                />
-
-                <StatCard
-                    title="Interviews"
-                    value={stats.interviews}
-                />
-
-                <StatCard
-                    title="Offers"
-                    value={stats.offers}
-                />
-
-                <StatCard
-                    title="Interview Rate"
-                    value={`${Number(stats.interview_rate).toFixed(1) || "0.0"}%`}
-                />
-            </div>
-
-
-            {/* Actions */}
-            {/* <Card>
-                <CardHeader>
-                    <CardTitle>
-                        Actions
-                    </CardTitle>
-                </CardHeader>
-
+                
                 <CardContent className="flex gap-3">
 
-                    <Button>
+                <Button>
                         Edit Profile
-                    </Button>
-
-                    <Button variant="outline">
+                        </Button>
+                        
+                        <Button variant="outline">
                         Change Password
-                    </Button>
-
+                        </Button>
+                        
                     <Button variant="outline">
-                        Verify Email
+                    Verify Email
                     </Button>
+                    
+                    </CardContent>
+                    </Card> */}
 
-                </CardContent>
-            </Card> */}
-
-        </div>
+            </div>
+        </>
     );
 }
 

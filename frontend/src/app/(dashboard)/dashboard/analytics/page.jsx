@@ -6,7 +6,7 @@ import PageHeader from '@/components/PageHeader'
 
 export default function Page() {
     return (
-        <div className='flex flex-col gap-4'>
+        <div className='flex flex-col gap-2'>
             <div className='flex justify-between items-center'>
                 <PageHeader title="Analytics" subtitle="Track you job application performance and insights" />
             </div>
